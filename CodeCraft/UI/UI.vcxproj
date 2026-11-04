@@ -24,6 +24,11 @@
   <ItemGroup>
     <ClInclude Include="main_menu.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logic\Logic.vcxproj">
+      <Project>{cc64c9a4-d513-49a9-a2e1-42374208900a}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
