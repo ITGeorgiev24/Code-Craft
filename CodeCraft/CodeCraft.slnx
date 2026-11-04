@@ -4,4 +4,5 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="CodeCraft/CodeCraft.vcxproj" Id="41d0a5f6-076b-41d6-8d03-c9cdcd9ce1ff" />
+  <Project Path="UI/UI.vcxproj" Id="72f945fb-04f2-4c7d-bd0c-27a22f8d3946" />
 </Solution>
