@@ -28,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="loginMenu.cpp" />
     <ClCompile Include="mainMenu.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
