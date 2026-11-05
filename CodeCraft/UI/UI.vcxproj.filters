@@ -18,6 +18,9 @@
     <ClInclude Include="mainMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="loginMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">
