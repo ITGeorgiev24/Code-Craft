@@ -3,7 +3,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="CodeCraft/CodeCraft.vcxproj" Id="41d0a5f6-076b-41d6-8d03-c9cdcd9ce1ff" />
   <Project Path="Data/Data.vcxproj" Id="b97e0603-4d97-4e4c-9562-3d55c98c160d" />
   <Project Path="Logic/Logic.vcxproj" Id="cc64c9a4-d513-49a9-a2e1-42374208900a" />
   <Project Path="UI/UI.vcxproj" Id="72f945fb-04f2-4c7d-bd0c-27a22f8d3946" />
