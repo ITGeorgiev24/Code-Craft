@@ -26,5 +26,8 @@
     <ClInclude Include="accounts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="campaign.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
