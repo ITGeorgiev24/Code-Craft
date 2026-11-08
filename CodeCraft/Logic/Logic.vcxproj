@@ -28,6 +28,7 @@
     <ClCompile Include="campaign.cpp" />
     <ClCompile Include="gameLogic.cpp" />
     <ClCompile Include="mazeGenerator.cpp" />
+    <ClCompile Include="pathfinder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="accounts.h" />
