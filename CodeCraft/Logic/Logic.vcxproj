@@ -30,6 +30,7 @@
     <ClCompile Include="mazeGenerator.cpp" />
     <ClCompile Include="pathfinder.cpp" />
     <ClCompile Include="records.cpp" />
+    <ClCompile Include="validation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="accounts.h" />
