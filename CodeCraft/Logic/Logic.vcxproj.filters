@@ -53,5 +53,8 @@
     <ClInclude Include="records.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="validation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

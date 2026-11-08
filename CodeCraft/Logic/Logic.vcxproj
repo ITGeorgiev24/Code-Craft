@@ -38,6 +38,7 @@
     <ClInclude Include="gameLogic.h" />
     <ClInclude Include="pathfinder.h" />
     <ClInclude Include="records.h" />
+    <ClInclude Include="validation.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
