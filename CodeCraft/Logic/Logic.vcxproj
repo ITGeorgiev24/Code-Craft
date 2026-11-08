@@ -34,6 +34,7 @@
     <ClInclude Include="accounts.h" />
     <ClInclude Include="campaign.h" />
     <ClInclude Include="gameLogic.h" />
+    <ClInclude Include="pathfinder.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
