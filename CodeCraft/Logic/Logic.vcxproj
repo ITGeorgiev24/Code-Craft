@@ -26,6 +26,7 @@
   <ItemGroup>
     <ClCompile Include="accounts.cpp" />
     <ClCompile Include="campaign.cpp" />
+    <ClCompile Include="gameLogic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="accounts.h" />
