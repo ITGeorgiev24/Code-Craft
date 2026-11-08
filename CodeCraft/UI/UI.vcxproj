@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="layout.cpp" />
     <ClCompile Include="loginMenu.cpp" />
     <ClCompile Include="mainMenu.cpp" />
   </ItemGroup>
