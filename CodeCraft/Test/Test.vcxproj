@@ -148,6 +148,9 @@
     <ClCompile Include="testCampaign.cpp" />
     <ClCompile Include="testData.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="testHelpers.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
