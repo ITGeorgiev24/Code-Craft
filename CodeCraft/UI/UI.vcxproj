@@ -32,6 +32,7 @@
   <ItemGroup>
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="gameSession.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="layout.cpp" />
     <ClCompile Include="loginMenu.cpp" />
     <ClCompile Include="mainMenu.cpp" />
