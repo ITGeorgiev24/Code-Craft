@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gameSession.h" />
     <ClInclude Include="layout.h" />
     <ClInclude Include="loginMenu.h" />
     <ClInclude Include="mainMenu.h" />
@@ -30,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="gameSession.cpp" />
     <ClCompile Include="layout.cpp" />
     <ClCompile Include="loginMenu.cpp" />
     <ClCompile Include="mainMenu.cpp" />
