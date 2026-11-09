@@ -1,19 +1,14 @@
-// DATA LAYER - gameData.cpp
-// Creating and deleting the dynamic arrays.
-
 #include "gameData.h"
 
 using namespace std;
 
-// ----- Maze -----------------------------------------------------------
 
 void createMaze(Maze& maze, int size) {
     deleteMaze(maze);
 
-    // First an array of row pointers, then every row.
     maze.tiles = new Tile*[size];
     for (int row = 0; row < size; row++) {
-        maze.tiles[row] = new Tile[size];   // every Tile starts as a wall
+        maze.tiles[row] = new Tile[size];
     }
     maze.size = size;
 }
@@ -32,8 +27,6 @@ void deleteMaze(Maze& maze) {
 bool isInside(const Maze& maze, int row, int col) {
     return maze.tiles != nullptr && row >= 0 && col >= 0 && row < maze.size && col < maze.size;
 }
-
-// ----- Position list --------------------------------------------------
 
 void createList(PositionList& list, int capacity) {
     deleteList(list);
@@ -62,8 +55,6 @@ bool samePosition(Position first, Position second) {
     return first.row == second.row && first.col == second.col;
 }
 
-// ----- Score table ----------------------------------------------------
-
 void createScoreTable(ScoreTable& table, int capacity) {
     deleteScoreTable(table);
     table.entries = new ScoreEntry[capacity];
@@ -86,8 +77,6 @@ bool addScore(ScoreTable& table, const ScoreEntry& entry) {
     table.count++;
     return true;
 }
-
-// ----- Account list ---------------------------------------------------
 
 void createAccountList(AccountList& list, int capacity) {
     deleteAccountList(list);
