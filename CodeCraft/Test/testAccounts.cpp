@@ -1,6 +1,3 @@
-// QA - testAccounts.cpp
-// Tests for accounts.h - creating accounts, logging in, progress per player.
-
 #include "CppUnitTest.h"
 #include "accounts.h"
 #include "campaign.h"

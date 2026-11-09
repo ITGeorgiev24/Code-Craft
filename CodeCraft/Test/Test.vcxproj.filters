@@ -21,5 +21,8 @@
     <ClCompile Include="testCampaign.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="testData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

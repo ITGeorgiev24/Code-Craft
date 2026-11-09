@@ -1,6 +1,3 @@
-// QA - testCampaign.cpp
-// Tests for campaign.h - levels, unlocking, stars, progress.
-
 #include "CppUnitTest.h"
 #include "campaign.h"
 #include "gameLogic.h"
@@ -80,7 +77,7 @@ public:
         Assert::IsTrue(broken.unlockedLevels == 10 && broken.bestStars[0] == 3 && broken.bestScores[1] == 0, L"values fixed");
 
         CampaignProgress lowUnlock;
-        lowUnlock.bestStars[3] = 2;   // level 4 completed -> level 5 must be open
+        lowUnlock.bestStars[3] = 2;
         fixProgress(lowUnlock);
         Assert::AreEqual(5, lowUnlock.unlockedLevels, L"level 5 opened");
     }
