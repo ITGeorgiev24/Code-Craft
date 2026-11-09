@@ -24,6 +24,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\UI\gameSession.cpp" />
     <ClCompile Include="accounts.cpp" />
     <ClCompile Include="campaign.cpp" />
     <ClCompile Include="gameLogic.cpp" />
