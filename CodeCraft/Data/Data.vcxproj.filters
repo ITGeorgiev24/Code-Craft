@@ -18,6 +18,9 @@
     <ClCompile Include="gameData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fileStorage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameData.h">

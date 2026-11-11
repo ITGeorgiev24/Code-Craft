@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="fileStorage.cpp" />
     <ClCompile Include="gameData.cpp" />
   </ItemGroup>
   <ItemGroup>
