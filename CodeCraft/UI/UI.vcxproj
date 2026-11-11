@@ -41,6 +41,7 @@
     <ClCompile Include="loginMenu.cpp" />
     <ClCompile Include="mainMenu.cpp" />
     <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="screens.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
