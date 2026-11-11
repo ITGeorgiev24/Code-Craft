@@ -31,6 +31,9 @@
       <Project>{cc64c9a4-d513-49a9-a2e1-42374208900a}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="testHelpers.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <ProjectGuid>{3B3B575B-5251-9595-CC57-C425EE8C35F0}</ProjectGuid>
