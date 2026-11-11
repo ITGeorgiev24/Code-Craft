@@ -23,6 +23,7 @@
     <ClCompile Include="gameData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="fileStorage.h" />
     <ClInclude Include="gameData.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -26,5 +26,8 @@
     <ClInclude Include="gameData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="fileStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
