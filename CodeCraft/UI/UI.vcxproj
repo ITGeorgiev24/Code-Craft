@@ -25,6 +25,7 @@
     <ClInclude Include="layout.h" />
     <ClInclude Include="loginMenu.h" />
     <ClInclude Include="mainMenu.h" />
+    <ClInclude Include="renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logic\Logic.vcxproj">
