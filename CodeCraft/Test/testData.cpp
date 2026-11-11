@@ -1,6 +1,6 @@
 #include "CppUnitTest.h"
-#include "fileStorage.h"
-#include "gameData.h"
+#include "../Data/fileStorage.h"
+#include "../Data/gameData.h"
 
 #include <cstdio>
 #include <fstream>

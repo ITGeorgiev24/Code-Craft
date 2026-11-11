@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
-#include "campaign.h"
-#include "gameLogic.h"
-#include "validation.h"
+#include "../Logic/campaign.h"
+#include "../Logic/gameLogic.h"
+#include "../Logic/validation.h"
 
 #include <cstdio>
 
