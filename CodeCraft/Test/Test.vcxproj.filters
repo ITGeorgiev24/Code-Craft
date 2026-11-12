@@ -36,6 +36,9 @@
     <ClCompile Include="testPathfinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="testRecords.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="testHelpers.h">
