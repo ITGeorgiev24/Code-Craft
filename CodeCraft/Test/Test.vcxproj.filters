@@ -39,6 +39,9 @@
     <ClCompile Include="testRecords.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="testValidation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="testHelpers.h">

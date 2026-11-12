@@ -27,6 +27,7 @@
     <ClCompile Include="testHelpers.cpp" />
     <ClCompile Include="testPathfinder.cpp" />
     <ClCompile Include="testRecords.cpp" />
+    <ClCompile Include="testValidation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.vcxproj">
