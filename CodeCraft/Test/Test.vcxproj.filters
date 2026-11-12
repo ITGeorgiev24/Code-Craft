@@ -24,6 +24,9 @@
     <ClCompile Include="testData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="testGameLogic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="testHelpers.h">

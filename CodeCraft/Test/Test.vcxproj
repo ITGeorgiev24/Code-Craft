@@ -22,6 +22,7 @@
     <ClCompile Include="testAccounts.cpp" />
     <ClCompile Include="testCampaign.cpp" />
     <ClCompile Include="testData.cpp" />
+    <ClCompile Include="testGameLogic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.vcxproj">
