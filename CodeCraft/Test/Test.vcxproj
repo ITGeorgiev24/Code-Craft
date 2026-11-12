@@ -25,6 +25,7 @@
     <ClCompile Include="testGameLogic.cpp" />
     <ClCompile Include="testGenerator.cpp" />
     <ClCompile Include="testHelpers.cpp" />
+    <ClCompile Include="testPathfinder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.vcxproj">
