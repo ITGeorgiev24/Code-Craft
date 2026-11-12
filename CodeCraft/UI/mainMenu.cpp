@@ -1,15 +1,15 @@
 #include "mainMenu.h"
-#include "accounts.h"
-#include "campaign.h"
+#include "../Logic/accounts.h"
+#include "../Logic/campaign.h"
 #include "console.h"
-#include "gameLogic.h"
+#include "../Logic/gameLogic.h"
 #include "gameSession.h"
 #include "input.h"
 #include "layout.h"
 #include "loginMenu.h"
 #include "renderer.h"
 #include "screens.h"
-#include "validation.h"
+#include "../Logic/validation.h"
 
 using namespace std;
 

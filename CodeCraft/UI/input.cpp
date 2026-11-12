@@ -2,7 +2,7 @@
 #include "console.h"
 #include "layout.h"
 #include "renderer.h"
-#include "validation.h"
+#include "../Logic/validation.h"
 
 using namespace std;
 

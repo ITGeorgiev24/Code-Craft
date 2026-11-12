@@ -1,6 +1,6 @@
 #pragma once
 
-#include "gameData.h"
+#include "../Data/gameData.h"
 
 #include <string>
 

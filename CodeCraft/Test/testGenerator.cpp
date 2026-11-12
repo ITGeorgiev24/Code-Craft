@@ -1,6 +1,6 @@
 #include "CppUnitTest.h"
-#include "mazeGenerator.h"
-#include "pathfinder.h"
+#include "../Logic/mazeGenerator.h"
+#include "../Logic/pathfinder.h"
 #include "testHelpers.h"
 
 using namespace std;

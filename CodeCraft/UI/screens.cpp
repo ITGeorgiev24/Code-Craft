@@ -1,11 +1,10 @@
-
 #include "screens.h"
 #include "console.h"
 #include "input.h"
 #include "layout.h"
-#include "records.h"
+#include "../Logic/records.h"
 #include "renderer.h"
-#include "validation.h"
+#include "../Logic/validation.h"
 
 using namespace std;
 

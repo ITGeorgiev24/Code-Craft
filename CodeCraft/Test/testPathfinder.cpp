@@ -1,6 +1,6 @@
 #include "CppUnitTest.h"
 #include "testHelpers.h"
-#include "pathfinder.h"
+#include "../Logic/pathfinder.h"
 
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

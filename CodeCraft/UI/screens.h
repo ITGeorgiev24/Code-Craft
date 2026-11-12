@@ -1,7 +1,7 @@
 #pragma once
 
-#include "campaign.h"
-#include "gameLogic.h"
+#include "../Logic/campaign.h"
+#include "../Logic/gameLogic.h"
 
 #include <string>
 

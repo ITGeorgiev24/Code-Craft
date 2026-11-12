@@ -1,5 +1,5 @@
 #pragma once
-#include "gameLogic.h"
+#include "../Logic/gameLogic.h"
 
 #include <string>
 

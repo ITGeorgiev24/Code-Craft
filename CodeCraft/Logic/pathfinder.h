@@ -1,5 +1,5 @@
 #pragma once
-#include "gameData.h"
+#include "../Data/gameData.h"
 
 using namespace std;
 

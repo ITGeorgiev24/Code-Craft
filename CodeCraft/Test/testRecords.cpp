@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 #include "testHelpers.h"
-#include "gameLogic.h"
-#include "records.h"
+#include "../Logic/gameLogic.h"
+#include "../Logic/records.h"
 
 #include <cstdio>
 #include <fstream>

@@ -1,5 +1,3 @@
-
-
 #include "gameLogic.h"
 #include "mazeGenerator.h"
 #include "pathfinder.h"

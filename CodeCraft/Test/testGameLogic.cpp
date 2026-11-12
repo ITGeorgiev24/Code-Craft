@@ -1,6 +1,6 @@
 #include "CppUnitTest.h"
 #include "testHelpers.h"
-#include "gameLogic.h"
+#include "../Logic/gameLogic.h"
 
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

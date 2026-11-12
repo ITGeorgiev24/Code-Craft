@@ -1,4 +1,3 @@
-
 #include "renderer.h"
 #include "console.h"
 #include "layout.h"

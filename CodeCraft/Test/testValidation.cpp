@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "validation.h"
+#include "../Logic/validation.h"
 
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

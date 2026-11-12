@@ -1,6 +1,6 @@
 #include "gameSession.h"
-#include "accounts.h"
-#include "campaign.h"
+#include "../Logic/accounts.h"
+#include "../Logic/campaign.h"
 #include "console.h"
 #include "input.h"
 #include "renderer.h"

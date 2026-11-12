@@ -1,5 +1,5 @@
 #include "testHelpers.h"
-#include "gameLogic.h"
+#include "../Logic/gameLogic.h"
 
 using namespace std;
 
