@@ -129,7 +129,7 @@ Email: IEGeorgiev24@codingburgas.bg
 <br>
 <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Microsoft_PowerPoint_Logo.png" width="20" alt="MS PowerPoint Logo"> <a href="">Presentation</a>
 <br>
-<img src="https://github.com/user-attachments/assets/62dbb93e-2039-46d3-b48f-4056713c6e2d" width="20" alt="MS Excel Logo"> <a href="">QA Documentation</a>
+<img src="https://github.com/user-attachments/assets/62dbb93e-2039-46d3-b48f-4056713c6e2d" width="20" alt="MS Excel Logo"> <a href="https://codingburgas-my.sharepoint.com/:x:/g/personal/itgeorgiev24_codingburgas_bg/IQDXiR_W5H3JTpTb3UD1dLQ-AYr3skYXggbUlA8dmaYpHc0?rtime=EIlU9oxC30g">QA Documentation</a>
 <br>
 
 </p>
