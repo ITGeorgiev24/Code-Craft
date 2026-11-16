@@ -15,8 +15,7 @@ int visibleLength(const string& text) {
                 i++;
             }
             i++;
-        }
-        else {
+        } else {
             length++;
             i++;
         }
@@ -87,7 +86,6 @@ int getScreenHeight() {
     return rows;
 }
 
-
 string buildMazeWall(int pieces, int gapEvery, int gapAt) {
     string wall;
     for (int i = 0; i < pieces; i++) {
@@ -100,7 +98,6 @@ string buildMazeWall(int pieces, int gapEvery, int gapAt) {
 }
 
 string buildMazeBox(const string& content) {
-
     stringstream firstPass(content);
     string line;
     int widest = 0;
@@ -110,7 +107,6 @@ string buildMazeBox(const string& content) {
         }
     }
 
-  
     int pieces = (widest + 6 + 1 + 2) / 3;
     int inside = pieces * 3 - 1;
     int leftSpace = (inside - widest) / 2;
@@ -130,11 +126,39 @@ string buildMazeBox(const string& content) {
 }
 
 void showScreen(const string& content, int linesBelow) {
-    int topSpace = (getScreenHeight() - countLines(content) - linesBelow) / 2;
-    clearScreen();
-    string screen;
-    for (int i = 0; i < topSpace; i++) {
-        screen += "\n";
+    int columns = 0;
+    int rows = 0;
+    getConsoleSize(columns, rows);
+
+    static int lastColumns = -1;
+    static int lastRows = -1;
+    if (columns != lastColumns || rows != lastRows) {
+        clearScreen();
+        lastColumns = columns;
+        lastRows = rows;
     }
-    writeText(screen + content);
+
+    int topSpace = (rows - countLines(content) - linesBelow) / 2;
+    if (topSpace < 0) {
+        topSpace = 0;
+    }
+
+    string emptyLine = string(columns - 1, ' ') + "\n";
+    string screen = reset + "\x1b[H";
+    int row = 0;
+    for (; row < topSpace && row < rows - 1; row++) {
+        screen += emptyLine;
+    }
+    stringstream stream(content);
+    string line;
+    while (getline(stream, line)) {
+        screen += padRight(line + reset, columns - 1) + "\n";
+        row++;
+    }
+    int cursorRow = row + 1;           
+    for (; row < rows - 1; row++) {
+        screen += emptyLine;
+    }
+    screen += "\x1b[" + to_string(cursorRow) + ";1H";
+    writeText(screen);
 }

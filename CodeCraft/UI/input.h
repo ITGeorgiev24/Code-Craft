@@ -3,20 +3,29 @@
 
 using namespace std;
 
-string buildTitle(int linesBelow);
+typedef string (*MenuArt)(int frame, int selected);
+
+struct MenuLook {
+    MenuArt left = nullptr;          
+    MenuArt right = nullptr;         
+    MenuArt below = nullptr;            
+    bool sideKeys = false;               
+    int sideMove = 0;                     
+    bool digitKeys = false;                
+    int typedKey = 0;                      
+};
 
 int runMenu(const string& caption, const string items[], int itemCount, int selected, const string& footer,
-            int linesBelow = 0);
+            int linesBelow = 0, MenuLook* look = nullptr);
 
-void showPage(const string& caption, const string& content);
+bool askConfirm(const string& question, const string& yesText = "Yes", const string& noText = "No");
 
-int readNumberInRange(const string& question, int minValue, int maxValue, int defaultValue);
+void showPage(const string& caption, const string& content, const string& prompt = "Press any key to go back...",
+              MenuLook* look = nullptr);
 
 string readText(const string& question);
 
 string readPassword(const string& question);
-
-bool askYesNo(const string& question, bool defaultAnswer);
 
 void waitForKey(const string& text = "Press any key to continue...");
 

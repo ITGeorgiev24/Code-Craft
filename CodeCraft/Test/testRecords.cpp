@@ -95,6 +95,16 @@ public:
         remove(fileName.c_str());
     }
 
+    TEST_METHOD(fasterTimeWinsATie) {
+        ScoreEntry slow = makeEntry("Slow", 500, 40);
+        ScoreEntry fast = makeEntry("Fast", 500, 40);
+        slow.seconds = 90;
+        fast.seconds = 30;
+        Assert::IsTrue(isBetterScore(fast, slow) && !isBetterScore(slow, fast), L"30 s beats 90 s");
+        ScoreEntry unknown = makeEntry("Old", 500, 40);         
+        Assert::IsTrue(isBetterScore(slow, unknown), L"a known time beats an unknown one");
+    }
+
     TEST_METHOD(zeroScoreNeverEnters) {
         Assert::IsFalse(qualifiesForLeaderboard(0, 10, "noSuchFile.tmp"), L"0 points");
         Assert::IsTrue(qualifiesForLeaderboard(1, 10, "noSuchFile.tmp"), L"1 point on an empty board");

@@ -77,8 +77,27 @@ public:
         Assert::IsTrue(broken.unlockedLevels == 10 && broken.bestStars[0] == 3 && broken.bestScores[1] == 0, L"values fixed");
 
         CampaignProgress lowUnlock;
-        lowUnlock.bestStars[3] = 2;
+        lowUnlock.bestStars[3] = 2;            
         fixProgress(lowUnlock);
         Assert::AreEqual(5, lowUnlock.unlockedLevels, L"level 5 opened");
+    }
+
+    TEST_METHOD(bestTimeIsTheFastest) {
+        CampaignProgress progress;
+        saveLevelResult(progress, 1, 2, 500, 90);
+        Assert::AreEqual(90, progress.bestTimes[0], L"the first time");
+        saveLevelResult(progress, 1, 2, 400, 120);
+        Assert::AreEqual(90, progress.bestTimes[0], L"a slower time does not replace it");
+        saveLevelResult(progress, 1, 1, 300, 45);
+        Assert::AreEqual(45, progress.bestTimes[0], L"a faster time replaces it");
+        saveLevelResult(progress, 1, 1, 300);
+        Assert::AreEqual(45, progress.bestTimes[0], L"no time (0) changes nothing");
+    }
+
+    TEST_METHOD(wardenLevels) {
+        Assert::IsTrue(levelHasChaser(4) && levelHasChaser(7) && levelHasChaser(10), L"the Warden hunts in chapters 4, 7 and 10");
+        Assert::IsFalse(levelHasChaser(1) || levelHasChaser(5) || levelHasChaser(9), L"not in the other chapters");
+        Assert::IsFalse(levelHasChaser(0) || levelHasChaser(11), L"wrong numbers");
+        Assert::IsTrue(getLevel(7).chaserStepMs > 0 && getLevel(1).chaserStepMs == 0, L"step time");
     }
 };

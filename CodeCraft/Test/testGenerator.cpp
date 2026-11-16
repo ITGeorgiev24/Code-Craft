@@ -87,7 +87,7 @@ public:
         GenerationReport report;
         generateMaze(first, 31, NORMAL, 2026, report);
         generateMaze(second, 31, NORMAL, 2026, report);
-        Assert::IsTrue(sameMaze(first, second), L"same seed - same maze (daily challenge, replay)");
+        Assert::IsTrue(sameMaze(first, second), L"same seed - same maze (replay, restart)");
         deleteMaze(first);
         deleteMaze(second);
     }

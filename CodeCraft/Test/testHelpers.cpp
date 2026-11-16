@@ -52,4 +52,14 @@ void buildGame(GameState& game, const string rows[], int size) {
     game.hintPenalty = 0;
     game.hintsUsed = 0;
     game.hintVisible = false;
+    game.elapsedMs = 0;
+    game.chaser = Chaser();
+    game.totalCoins = 0;
+    for (int row = 0; row < size; row++) {
+        for (int col = 0; col < size; col++) {
+            if (game.maze.tiles[row][col].item == ITEM_COIN) {
+                game.totalCoins++;
+            }
+        }
+    }
 }

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "../Logic/campaign.h"
 #include "../Logic/gameLogic.h"
 
@@ -13,19 +12,20 @@ struct CampaignResult {
     int level = 1;
     bool newLevelUnlocked = false;
     bool campaignComplete = false;
+    bool newBestTime = false;
     int totalStars = 0;
 };
 
-bool configureNewGame(int& size, Difficulty& difficulty);
+bool configureNewGame(int& size, Difficulty& difficulty, bool& warden);
 
 void showHelpScreen();
 void showLegendScreen();
 void showLeaderboardScreen();
 void showErrorScreen(const string& text);
 
-VictoryChoice showVictoryScreen(const GameState& game, const CampaignResult* campaign, bool newMazeAllowed, const string& username);
+VictoryChoice showVictoryScreen(const GameState& game, const CampaignResult* campaign, const string& username);
 
-string levelName(int level);
+VictoryChoice showCaughtScreen(const GameState& game, int level);
 
 int selectLevel(const CampaignProgress& progress, int suggestedLevel);
 

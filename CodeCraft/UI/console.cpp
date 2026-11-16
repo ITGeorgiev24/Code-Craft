@@ -23,6 +23,27 @@ void restoreConsole() {
     writeText("\x1b[0m\x1b[2J\x1b[H\x1b[?25h");        
 }
 
+int translateKey(const INPUT_RECORD& record) {
+    if (record.EventType != KEY_EVENT || !record.Event.KeyEvent.bKeyDown) {
+        return noKey;
+    }
+
+    int key = record.Event.KeyEvent.wVirtualKeyCode;
+    if (key == VK_UP) return arrowUp;
+    if (key == VK_DOWN) return arrowDown;
+    if (key == VK_LEFT) return arrowLeft;
+    if (key == VK_RIGHT) return arrowRight;
+    if (key == VK_RETURN) return enterKey;
+    if (key == VK_ESCAPE) return escapeKey;
+    if (key == VK_BACK) return backspaceKey;
+    if (key == VK_SPACE) return spaceKey;
+    if (key >= 'A' && key <= 'Z') return key - 'A' + 'a';
+    if (key >= '0' && key <= '9') return key;
+    if (key >= VK_NUMPAD0 && key <= VK_NUMPAD9) return '0' + (key - VK_NUMPAD0);
+    if (key == VK_OEM_2 || key == VK_F1) return '?';           
+    return noKey;
+}
+
 int readKey() {
     cout.flush();
     HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
@@ -30,24 +51,41 @@ int readKey() {
         INPUT_RECORD record;
         DWORD count = 0;
         ReadConsoleInputW(input, &record, 1, &count);
-
-        if (count == 0 || record.EventType != KEY_EVENT || !record.Event.KeyEvent.bKeyDown) {
-            continue;
+        int key = count == 0 ? noKey : translateKey(record);
+        if (key != noKey) {
+            return key;
         }
-
-        int key = record.Event.KeyEvent.wVirtualKeyCode;
-        if (key == VK_UP) return arrowUp;
-        if (key == VK_DOWN) return arrowDown;
-        if (key == VK_LEFT) return arrowLeft;
-        if (key == VK_RIGHT) return arrowRight;
-        if (key == VK_RETURN) return enterKey;
-        if (key == VK_ESCAPE) return escapeKey;
-        if (key == VK_BACK) return backspaceKey;
-        if (key >= 'A' && key <= 'Z') return key - 'A' + 'a';
-        if (key >= '0' && key <= '9') return key;
-        if (key >= VK_NUMPAD0 && key <= VK_NUMPAD9) return '0' + (key - VK_NUMPAD0);
-        if (key == VK_OEM_2 || key == VK_F1) return '?';           
     }
+}
+
+int readKeyTimeout(int milliseconds) {
+    cout.flush();
+    HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
+    ULONGLONG end = GetTickCount64() + (ULONGLONG)milliseconds;
+    while (true) {
+        ULONGLONG now = GetTickCount64();
+        if (now >= end) {
+            return noKey;
+        }
+        if (WaitForSingleObject(input, (DWORD)(end - now)) != WAIT_OBJECT_0) {
+            return noKey;
+        }
+        INPUT_RECORD record;
+        DWORD count = 0;
+        ReadConsoleInputW(input, &record, 1, &count);
+        int key = count == 0 ? noKey : translateKey(record);
+        if (key != noKey) {
+            return key;
+        }
+    }
+}
+
+void clearKeyBuffer() {
+    FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+}
+
+long long currentTimeMs() {
+    return (long long)GetTickCount64();
 }
 
 string readLine() {

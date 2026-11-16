@@ -26,7 +26,7 @@ public:
         createMaze(maze, 10);
         deleteMaze(maze);
         Assert::IsTrue(maze.tiles == nullptr && maze.size == 0, L"empty after delete");
-        deleteMaze(maze);
+        deleteMaze(maze);      
         Assert::IsTrue(maze.tiles == nullptr, L"still empty");
     }
 
@@ -74,6 +74,7 @@ public:
         entry.difficulty = HARD;
         entry.moves = 99;
         entry.score = 2000;
+        entry.seconds = 75;
         addScore(table, entry);
         Assert::IsTrue(saveScores(fileName, table), L"saved");
 
@@ -84,6 +85,7 @@ public:
         Assert::AreEqual(string("Tester"), loaded.entries[0].playerName, L"name");
         Assert::IsTrue(loaded.entries[0].mazeSize == 20 && loaded.entries[0].difficulty == HARD, L"size and difficulty");
         Assert::IsTrue(loaded.entries[0].moves == 99 && loaded.entries[0].score == 2000, L"moves and score");
+        Assert::AreEqual(75, loaded.entries[0].seconds, L"the time");
         deleteScoreTable(table);
         deleteScoreTable(loaded);
         remove(fileName.c_str());
@@ -93,14 +95,17 @@ public:
         string fileName = "testBadScores.tmp";
         ofstream file(fileName);
         file << "Good;10;1;20;500\n" << "garbage line\n" << "Bad;ten;1;20;500\n" << "Short;10;1\n"
-             << "WrongLevel;10;9;20;500\n" << "Second;12;0;40;700\n";
+             << "WrongLevel;10;9;20;500\n" << "Second;12;0;40;700;64\n" << "BadTime;12;0;40;700;-5\n"
+             << "TooLong;12;0;40;700;64;1\n";
         file.close();
 
         ScoreTable table;
         createScoreTable(table, 10);
         loadScores(fileName, table);
         Assert::AreEqual(2, table.count, L"only the 2 good lines");
+        Assert::IsTrue(table.entries[0].playerName == "Good" && table.entries[0].seconds == 0, L"an old line without time");
         Assert::IsTrue(table.entries[1].playerName == "Second" && table.entries[1].score == 700, L"second good line");
+        Assert::AreEqual(64, table.entries[1].seconds, L"the time of the second line");
         deleteScoreTable(table);
         remove(fileName.c_str());
     }
@@ -119,12 +124,13 @@ public:
         createAccountList(list, 5);
         Account account;
         account.username = "Maria";
-        account.passwordHash = 4000000000u;
+        account.passwordHash = 4000000000u;                 
         account.progress.unlockedLevels = 4;
         account.progress.bestStars[0] = 3;
         account.progress.bestScores[0] = 450;
         account.progress.bestStars[2] = 1;
         account.progress.bestScores[2] = 900;
+        account.progress.bestTimes[2] = 133;
         addAccount(list, account);
         Assert::IsTrue(saveAccounts(fileName, list), L"saved");
 
@@ -138,6 +144,7 @@ public:
         Assert::IsTrue(progress.bestStars[0] == 3 && progress.bestScores[0] == 450, L"level 1");
         Assert::AreEqual(0, progress.bestStars[1], L"level 2 not completed");
         Assert::IsTrue(progress.bestStars[2] == 1 && progress.bestScores[2] == 900, L"level 3");
+        Assert::IsTrue(progress.bestTimes[2] == 133 && progress.bestTimes[0] == 0, L"best times");
         deleteAccountList(list);
         deleteAccountList(loaded);
         remove(fileName.c_str());
@@ -155,7 +162,7 @@ public:
         AccountList list;
         createAccountList(list, 10);
         loadAccounts(fileName, list);
-        Assert::IsTrue(list.count == 1 && list.accounts[0].username == "Good", L"only the good line");
+        Assert::IsTrue(list.count == 1 && list.accounts[0].username == "Good", L"only the good line (old format, 23 parts)");
         deleteAccountList(list);
         remove(fileName.c_str());
     }

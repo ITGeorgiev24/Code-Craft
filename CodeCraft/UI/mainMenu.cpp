@@ -15,14 +15,14 @@ using namespace std;
 
 bool showPlayerMenu(const string& username) {
     GameState game;
-    int quickSize = defaultMazeSize;       
+    int quickSize = defaultMazeSize;                 
     Difficulty quickDifficulty = NORMAL;
+    bool quickWarden = false;                     
 
-    const string menuItems[8] = {
-        "Campaign (10 levels)",
+    const string menuItems[7] = {
+        "Campaign: The Star Compass",
         "New game",
         "Quick game",
-        "Daily challenge",
         "How to play",
         "Leaderboard",
         "Log out",
@@ -32,46 +32,33 @@ bool showPlayerMenu(const string& username) {
     int selected = 0;
     while (true) {
         CampaignProgress progress = loadPlayerProgress(username);
-        string footer = paint("Player: " + username, bold + cyan) + "   "
-            + paint("Campaign: level " + to_string(progress.unlockedLevels) + "/" + to_string(levelCount)
-                + " unlocked, " + to_string(getTotalStars(progress)) + " stars", yellow) + "\n"
-            + paint("Quick game: random " + to_string(quickSize) + "x" + to_string(quickSize) + " "
-                + difficultyName(quickDifficulty) + "  |  Daily: always the same "
-                + to_string(dailyMazeSize) + "x" + to_string(dailyMazeSize) + " maze", muted);
+        string footer = paint("Player: " + username, bold + cyan) + "     "
+                      + paint("Chapter " + to_string(progress.unlockedLevels) + "/" + to_string(levelCount), orange)
+                      + "     " + paint("Stars " + to_string(getTotalStars(progress)) + "/" + to_string(3 * levelCount),
+                                        yellow);
 
-        int choice = runMenu("MAIN MENU", menuItems, 8, selected, footer);
+        int choice = runMenu("MAIN MENU", menuItems, 7, selected, footer);
         if (choice >= 0) {
             selected = choice;
         }
 
         if (choice == 0) {
             playCampaign(game, username);
-        }
-        else if (choice == 1) {
-            if (configureNewGame(quickSize, quickDifficulty)) {
-                playFreeGames(game, quickSize, quickDifficulty, "", username);
+        } else if (choice == 1) {
+            if (configureNewGame(quickSize, quickDifficulty, quickWarden)) {
+                playFreeGames(game, quickSize, quickDifficulty, quickWarden, "", username);
             }
-        }
-        else if (choice == 2) {
-            playFreeGames(game, quickSize, quickDifficulty, "Quick game", username);
-        }
-        else if (choice == 3) {
-            playDailyChallenge(game, username);
-        }
-        else if (choice == 4) {
+        } else if (choice == 2) {
+            playFreeGames(game, quickSize, quickDifficulty, quickWarden, "Quick game", username);
+        } else if (choice == 3) {
             showHelpScreen();
-        }
-        else if (choice == 5) {
+        } else if (choice == 4) {
             showLeaderboardScreen();
-        }
-        else if (choice == 6) {
+        } else if (choice == 5) {
             endGame(game);
-            return true;  
-        }
-        else {           
-            showScreen(buildTitle(2) + centerLine(paint("See you soon in the maze, " + username + "!", muted),
-                getScreenWidth()) + "\n\n", 1);
-            if (askYesNo("Do you really want to leave MAZEBOUND?", true)) {
+            return true;     
+        } else {              
+            if (askConfirm("Leave MAZEBOUND?", "Yes, leave", "No, stay")) {
                 endGame(game);
                 return false;
             }
@@ -82,15 +69,15 @@ bool showPlayerMenu(const string& username) {
 void showMainMenu() {
     initializeConsole();
     initializeRandom();
+    clearScreen();
 
     bool running = true;
     while (running) {
         string username = showLoginMenu();
         if (username == "") {
-            running = false;                       
-        }
-        else {
-            running = showPlayerMenu(username);    
+            running = false;                            
+        } else {
+            running = showPlayerMenu(username);            
         }
     }
     restoreConsole();

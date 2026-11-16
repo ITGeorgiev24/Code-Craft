@@ -49,7 +49,7 @@ public:
         GameState game;
         buildGame(game, sampleMaze, 10);
         movePlayer(game, DIR_RIGHT);
-        MoveResult pickUp = movePlayer(game, DIR_RIGHT);
+        MoveResult pickUp = movePlayer(game, DIR_RIGHT);       
         Assert::IsTrue(pickUp.itemFound == ITEM_KEY, L"key found");
         Assert::AreEqual(1, getPlayer(game).keys, L"1 key");
         Assert::IsTrue(getItemAt(game, 0, 2) == ITEM_NONE, L"the key is removed from the maze");
@@ -112,9 +112,9 @@ public:
         GameState game;
         buildGame(game, sampleMaze, 10);
         requestHint(game);
-        movePlayer(game, DIR_RIGHT);
+        movePlayer(game, DIR_RIGHT);      
         Assert::IsTrue(isHintVisible(game) && isHintTile(game, 0, 2), L"the hint moves with the player");
-        movePlayer(game, DIR_LEFT);
+        movePlayer(game, DIR_LEFT);        
         Assert::IsFalse(isHintVisible(game), L"the hint disappears");
         endGame(game);
     }
@@ -132,21 +132,21 @@ public:
         endGame(game);
     }
 
-    TEST_METHOD(dailyChallengeIsAlwaysTheSame) {
+    TEST_METHOD(sameSeedGivesTheSameMaze) {
         GameState first;
         GameState second;
-        startGameWithSeed(first, dailyMazeSize, NORMAL, dailySeed);
-        startNewGame(second, 15, NORMAL);
-        startGameWithSeed(second, dailyMazeSize, NORMAL, dailySeed);
+        startGameWithSeed(first, 25, NORMAL, 2026u);
+        startNewGame(second, 15, NORMAL);       
+        startGameWithSeed(second, 25, NORMAL, 2026u);
         bool same = getOptimalMoves(first) == getOptimalMoves(second);
-        for (int row = 0; row < dailyMazeSize; row++) {
-            for (int col = 0; col < dailyMazeSize; col++) {
+        for (int row = 0; row < 25; row++) {
+            for (int col = 0; col < 25; col++) {
                 if (getTileType(first, row, col) != getTileType(second, row, col)) {
                     same = false;
                 }
             }
         }
-        Assert::IsTrue(same, L"the daily maze is the same every time");
+        Assert::IsTrue(same, L"the same seed builds the same maze (replay, restart)");
         endGame(first);
         endGame(second);
     }
@@ -193,7 +193,7 @@ public:
         game.fogOfWar = true;
         Assert::IsFalse(isTileVisible(game, 0, 5), L"hidden at the start");
         for (int i = 0; i < 4; i++) {
-            movePlayer(game, DIR_RIGHT);
+            movePlayer(game, DIR_RIGHT);        
         }
         Assert::IsTrue(isTileVisible(game, 0, 6), L"2 squares ahead is visible");
         Assert::IsFalse(isTileVisible(game, 0, 7), L"3 squares ahead is hidden");
@@ -219,5 +219,128 @@ public:
         Assert::AreEqual(3, calculateStars(115, 100), L"+15%");
         Assert::AreEqual(2, calculateStars(150, 100), L"+50%");
         Assert::AreEqual(1, calculateStars(300, 100), L"+200%");
+    }
+
+    TEST_METHOD(bonusPointsAreAddedToTheScore) {
+        Assert::AreEqual(950, computeScore(10, NORMAL, 18, 18, 0, 0, 150), L"800 + 150 bonus");
+        Assert::AreEqual(800, computeScore(10, NORMAL, 18, 18, 0, 0), L"no bonus by default");
+    }
+
+    TEST_METHOD(coinsGiveTreasureRewards) {
+        const string coinMaze[10] = {
+            ".$$$$$$$..",
+            "#########.",
+            "#########.",
+            "#########.",
+            "#########.",
+            "#########.",
+            "#########.",
+            "#########.",
+            "#########.",
+            "#########E",
+        };
+        GameState game;
+        buildGame(game, coinMaze, 10);
+        Assert::AreEqual(7, getTotalCoins(game), L"7 coins in the maze");
+
+        MoveResult result;
+        result = movePlayer(game, DIR_RIGHT);
+        Assert::IsTrue(result.reward == REWARD_NONE, L"1 coin - no treasure yet");
+        movePlayer(game, DIR_RIGHT);
+        result = movePlayer(game, DIR_RIGHT);
+        Assert::IsTrue(result.reward == REWARD_COMPASS, L"3 coins - the first treasure is a compass");
+        Assert::AreEqual(1, getPlayer(game).compasses, L"the compass is in the pocket");
+
+        movePlayer(game, DIR_RIGHT);
+        movePlayer(game, DIR_RIGHT);
+        result = movePlayer(game, DIR_RIGHT);
+        Assert::IsTrue(result.reward == REWARD_KEY, L"6 coins - the second treasure is a key");
+        Assert::AreEqual(1, getPlayer(game).keys, L"the key is in the pocket");
+        Assert::IsFalse(result.allCoins, L"one coin is still left");
+
+        result = movePlayer(game, DIR_RIGHT);
+        Assert::IsTrue(result.allCoins, L"the last coin");
+        Assert::AreEqual(allCoinsBonus, getPlayer(game).bonusPoints, L"bonus for all coins");
+        Assert::AreEqual(2, getPlayer(game).rewards, L"2 treasures");
+        endGame(game);
+    }
+
+    TEST_METHOD(clockStartsWithTheFirstMove) {
+        GameState game;
+        buildGame(game, sampleMaze, 10);
+        advanceTime(game, 5000);
+        Assert::AreEqual(0, getElapsedSeconds(game), L"no move - no time");
+        movePlayer(game, DIR_RIGHT);
+        advanceTime(game, 2500);
+        Assert::AreEqual(2, getElapsedSeconds(game), L"2.5 seconds after the first move");
+        quitGame(game);
+        advanceTime(game, 5000);
+        Assert::AreEqual(2, getElapsedSeconds(game), L"the clock stops when the game ends");
+        endGame(game);
+    }
+
+    TEST_METHOD(wardenHuntsThePlayer) {
+        GameState game;
+        buildGame(game, sampleMaze, 10);
+        enableChaser(game, 1000, 200);
+        Assert::IsTrue(hasChaser(game) && !isChaserActive(game), L"the Warden sleeps");
+
+        for (int i = 0; i < 6; i++) {
+            movePlayer(game, DIR_RIGHT);             
+        }
+        Assert::IsTrue(advanceTime(game, 1000) == TIME_CHASER_APPEARED, L"the Warden appears");
+        Assert::IsTrue(isChaserAt(game, 0, 0), L"at the start");
+
+        Assert::IsTrue(advanceTime(game, 200) == TIME_CHASER_MOVED, L"one step");
+        Assert::IsTrue(isChaserAt(game, 0, 1), L"towards the player");
+        Assert::AreEqual(5, getChaserDistance(game), L"5 steps away");
+
+        Assert::IsTrue(advanceTime(game, 1000) == TIME_CAUGHT, L"5 more steps - caught");
+        Assert::IsTrue(getStatus(game) == CAUGHT, L"status CAUGHT");
+        endGame(game);
+    }
+
+    TEST_METHOD(frozenWardenWaits) {
+        GameState game;
+        buildGame(game, sampleMaze, 10);
+        enableChaser(game, 0, 200);
+        for (int i = 0; i < 8; i++) {
+            movePlayer(game, DIR_RIGHT);
+        }
+        advanceTime(game, 10);     
+        Assert::IsTrue(isChaserActive(game), L"the Warden is here");
+        game.chaser.frozenMs = 1000;
+        Assert::IsTrue(isChaserFrozen(game), L"frozen");
+        advanceTime(game, 900);
+        Assert::IsTrue(isChaserAt(game, 0, 0), L"it does not move while frozen");
+        advanceTime(game, 300);            
+        Assert::IsTrue(isChaserAt(game, 0, 1), L"it moves again");
+        endGame(game);
+    }
+
+    TEST_METHOD(restartKeepsTheWarden) {
+        GameState game;
+        startNewGame(game, 15, EASY);
+        enableChaser(game, 3000, 500);
+        movePlayer(game, DIR_RIGHT);
+        Assert::IsTrue(restartGame(game), L"restarted");
+        Assert::IsTrue(hasChaser(game) && !isChaserActive(game), L"the Warden sleeps again");
+        Assert::AreEqual(0, getElapsedSeconds(game), L"the clock is back to 0");
+        endGame(game);
+
+        startNewGame(game, 15, EASY);
+        Assert::IsFalse(hasChaser(game), L"a new game has no Warden");
+        endGame(game);
+    }
+
+    TEST_METHOD(wardenInFreeGamesIsFasterOnHarderLevels) {
+        Assert::IsTrue(chaserStepForDifficulty(EASY) > chaserStepForDifficulty(NORMAL), L"Normal is faster than Easy");
+        Assert::IsTrue(chaserStepForDifficulty(NORMAL) > chaserStepForDifficulty(HARD), L"Hard is faster than Normal");
+        Assert::IsTrue(chaserStepForDifficulty(HARD) > chaserStepForDifficulty(EXPERT), L"Expert is the fastest");
+        GameState game;
+        startNewGame(game, 20, HARD);
+        enableChaser(game, freeGameChaserWakeMs, chaserStepForDifficulty(HARD));
+        Assert::IsTrue(hasChaser(game) && getChaserWakeSeconds(game) == 10, L"wakes up 10 s after the first move");
+        endGame(game);
     }
 };

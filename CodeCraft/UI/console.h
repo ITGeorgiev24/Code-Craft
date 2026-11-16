@@ -26,12 +26,20 @@ const int arrowRight = 1004;
 const int enterKey = 13;
 const int escapeKey = 27;
 const int backspaceKey = 8;
+const int spaceKey = 32;
+const int noKey = 0;                 
 
 void initializeConsole();
 
 void restoreConsole();
 
 int readKey();
+
+int readKeyTimeout(int milliseconds);
+
+void clearKeyBuffer();
+
+long long currentTimeMs();
 
 string readLine();
 

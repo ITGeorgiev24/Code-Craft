@@ -34,12 +34,10 @@ string logInForm() {
         if (choice == 0) {
             username = readText("Username");
             selected = 1;
-        }
-        else if (choice == 1) {
+        } else if (choice == 1) {
             password = readPassword("Password");
             selected = 2;
-        }
-        else if (choice == 2) {
+        } else if (choice == 2) {
             AccountResult result = logIn(username, password);
             if (result == ACCOUNT_OK) {
                 return getSavedUsername(username);
@@ -47,19 +45,16 @@ string logInForm() {
             if (username == "") {
                 message = paint("Please type your username first.", red);
                 selected = 0;
-            }
-            else if (result == ACCOUNT_NOT_FOUND) {
+            } else if (result == ACCOUNT_NOT_FOUND) {
                 message = paint("There is no account \"" + username + "\". Go back and choose \"Create account\".", red);
                 selected = 0;
-            }
-            else {
+            } else {
                 message = paint("Wrong password. Please try again.", red);
                 password = "";
                 selected = 1;
             }
-        }
-        else {
-            return ""; 
+        } else {
+            return "";      
         }
     }
 }
@@ -72,9 +67,9 @@ string createAccountForm() {
     int selected = 0;
 
     string rules = paint("Username: " + to_string(minUsernameLength) + "-" + to_string(maxUsernameLength)
-        + " latin letters, digits, '_', '-', '.'\n"
-        + "Password: " + to_string(minPasswordLength) + "-" + to_string(maxPasswordLength)
-        + " characters, no spaces", muted);
+                         + " latin letters, digits, '_', '-', '.'\n"
+                         + "Password: " + to_string(minPasswordLength) + "-" + to_string(maxPasswordLength)
+                         + " characters, at least 1 digit and 1 capital letter, no spaces", muted);
 
     while (true) {
         const string items[5] = {
@@ -91,62 +86,50 @@ string createAccountForm() {
             username = readText("Username");
             message = "";
             selected = 1;
-        }
-        else if (choice == 1) {
+        } else if (choice == 1) {
             password = readPassword("Password");
             message = "";
             selected = 2;
-        }
-        else if (choice == 2) {
+        } else if (choice == 2) {
             repeatedPassword = readPassword("Repeat the password");
             message = "";
             selected = 3;
-        }
-        else if (choice == 3) {
-           
+        } else if (choice == 3) {
             if (!isValidUsername(username)) {
                 message = paint("The username does not follow the rules.", red);
                 selected = 0;
-            }
-            else if (accountExists(username)) {
+            } else if (accountExists(username)) {
                 message = paint("The username \"" + username + "\" is already taken.", red);
                 selected = 0;
-            }
-            else if (!isValidPassword(password)) {
-                message = paint("The password does not follow the rules.", red);
+            } else if (!isValidPassword(password)) {
+                message = paint("The password needs " + to_string(minPasswordLength) + "-" + to_string(maxPasswordLength)
+                                + " characters, at least one digit (0-9) and one capital letter (A-Z).", red);
                 selected = 1;
-            }
-            else if (repeatedPassword != password) {
+            } else if (repeatedPassword != password) {
                 message = paint("The two passwords are different.", red);
                 repeatedPassword = "";
                 selected = 2;
-            }
-            else if (createAccount(username, password) != ACCOUNT_OK) {
+            } else if (createAccount(username, password) != ACCOUNT_OK) {
                 message = paint("The account could not be saved.", red);
-            }
-            else {
+            } else {
                 return username;
             }
-        }
-        else {
-            return "";  
+        } else {
+            return "";      
         }
     }
 }
 
 void showWelcome(const string& text) {
-    string box = buildMazeBox(paint(text, bold + green) + "\n");
-    showScreen(buildTitle(countLines(box) + 2) + centerBlock(box, getScreenWidth()), 2);
-    waitForKey();
+    showPage("WELCOME", paint(text, bold + green) + "\n", "Press any key to continue...");
 }
 
 string showLoginMenu() {
     const string menuItems[3] = { "Log in", "Create account", "Exit" };
-    string footer = paint("Your account keeps your campaign progress and your name on the leaderboard.", muted);
 
     int selected = 0;
     while (true) {
-        int choice = runMenu("WELCOME - log in to play", menuItems, 3, selected, footer);
+        int choice = runMenu("WELCOME, TRAVELLER", menuItems, 3, selected, "");
         if (choice >= 0) {
             selected = choice;
         }
@@ -157,16 +140,14 @@ string showLoginMenu() {
                 showWelcome("Welcome back, " + username + "!");
                 return username;
             }
-        }
-        else if (choice == 1) {
+        } else if (choice == 1) {
             string username = createAccountForm();
             if (username != "") {
                 showWelcome("Account created! Welcome, " + username + "!");
                 return username;
             }
-        }
-        else {
-            return "";
+        } else {
+            return "";      
         }
     }
 }

@@ -1,21 +1,24 @@
 #pragma once
-#include "../Logic/gameLogic.h"
+#include "gameLogic.h"
 
 #include <string>
 
 using namespace std;
 
 struct DrawOptions {
-    bool showFullMap = false;
-    string caption;   
+    string caption;            
+    int level = 0;                 
 };
 
 string difficultyName(Difficulty difficulty);
+
+string formatTime(int seconds);
 
 string wallSymbol();
 string doorSymbol();
 string exitSymbol();
 string playerSymbol();
+string chaserSymbol();
 string itemSymbol(ItemType item);
 string trailSymbol();
 string hintSymbol();
@@ -27,3 +30,5 @@ string buildGameFrame(const GameState& game, const DrawOptions& options, const s
                       int columns, int rows);
 
 void drawGame(const GameState& game, const DrawOptions& options, const string& message);
+
+void drawStatusLine(const GameState& game);
