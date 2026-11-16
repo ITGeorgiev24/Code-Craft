@@ -1,10 +1,11 @@
 <h1 align="center">Team: CodeCraft</h1>
 <div align="center">
-<img width="200" height="200" alt="ChatGPT Image 10 06 2026 г , 18_43_46" src="https://github.com/user-attachments/assets/f58cf4ea-8b03-4c14-8422-ff29666d7cfe" />
+<img width="200" height="200" alt="ChatGPT_Image_10 06 2026_ _18_43_46" src="https://github.com/user-attachments/assets/650a80b3-9ec2-44d4-b17a-aba6cdbefe3b" />
+
 </div>
 <h3 align="center"> Application name: MAZEBOUND </h3> 
 <div align="center">
-    <img width="524" height="102" alt="image" src="https://github.com/user-attachments/assets/327d03ea-0cc9-47aa-ac53-0959cd6f7f20" />
+    <img width="406" height="67" alt="Screenshot_2026-11-16_231415" src="https://github.com/user-attachments/assets/46884c67-27a1-4cdb-bfb5-5ebbf6a1276b" />
     </div>
 <br>
     
@@ -44,19 +45,23 @@ progress and the name on the leaderboard.
 
 |                                Main menu                              |
 | :-------------------------------------------------------------------: | 
-<img width="1680" height="1002" alt="image" src="https://github.com/user-attachments/assets/28eab71f-575d-4202-888b-163d9fe12372" />
+<img width="1920" height="1140" alt="Screenshot_2026-11-16_231628" src="https://github.com/user-attachments/assets/ae80d491-0797-4838-9b52-af3ac32c8f73" />
+
 
 |                        Register/Login                                 |
 | :-------------------------------------------------------------------: | 
-<img width="1680" height="1002" alt="image" src="https://github.com/user-attachments/assets/0edc13d3-5053-4164-add4-2b1da67844e3" />
+<img width="1920" height="1140" alt="Screenshot_2026-11-16_231751" src="https://github.com/user-attachments/assets/d67f00a0-ba3a-403f-9925-964dc272e473" />
+
 
 |                                New game menu                          |
 | :-------------------------------------------------------------------: | 
-<img width="1680" height="1002" alt="image" src="https://github.com/user-attachments/assets/8859bb0b-796b-43a5-9aa9-405045fe72ff" />
+<img width="1920" height="1140" alt="Screenshot_2026-11-16_231845" src="https://github.com/user-attachments/assets/c751c4da-1b8f-4bf2-bbd8-77ea6b791a78" />
+
 
 |                              Maze layout                              |
 | :-------------------------------------------------------------------: | 
-<img width="1680" height="1002" alt="image" src="https://github.com/user-attachments/assets/ae5d5428-5c2d-4839-af13-c436d01b7fa5" />
+<img width="1920" height="1140" alt="Screenshot_2026-11-16_231936" src="https://github.com/user-attachments/assets/818865cf-75b0-4a5e-9776-3442e1031286" />
+
 
 <h2 id="used-technologies"> 🧑‍💻 Used Technologies </h2>
 <p align="justify">
@@ -68,7 +73,7 @@ progress and the name on the leaderboard.
 <br>
 - <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Microsoft_PowerPoint_Logo.png" width="20" alt="MS PowerPoint Logo"> <a href="https://bg.wikipedia.org/wiki/Microsoft_PowerPoint">MS PowerPoint</a>
 <br>
-- <img width="20" alt="MS Excel" src="https://github.com/user-attachments/assets/62dbb93e-2039-46d3-b48f-4056713c6e2d" /><a href="https://www.microsoft.com/en/microsoft-365/excel">MS Excel</a>
+- <img width="20" alt="MS Excel" src="https://upload.wikimedia.org/wikipedia/commons/6/60/Microsoft_Office_Excel_%282025%E2%80%93present%29.svg?utm_source=bg.wikipedia.org&utm_campaign=index&utm_content=original" /><a href="https://www.microsoft.com/en/microsoft-365/excel">MS Excel</a>
 </p>
 - <img src="https://github.com/user-attachments/assets/93665e1e-4a2a-4a9f-9ae6-d5e41a204b79" width="30" alt="MS Teams Logo"> <a href="https://www.microsoft.com/en-us/microsoft-teams/group-chat-software">MS Teams</a>
 </p>
@@ -125,11 +130,11 @@ Email: TSIvanov24@codingburgas.bg
 Email: IEGeorgiev24@codingburgas.bg
 <h2 id="documentation">📄Documentation</h2> 
 <hr>
-<img src="https://github.com/user-attachments/assets/3ad0c148-6e5a-4e1b-ba16-82f53b41d500" width="30" alt="MS Word Logo"> <a href="https://codingburgas-my.sharepoint.com/:w:/g/personal/itgeorgiev24_codingburgas_bg/IQCZvN6bhhaPRoxoHJN6d-w0AXU60BnaiOmBUMGen_iCZw0?rtime=AoxBV5BC30g">Documentation</a>
+<img src="https://github.com/user-attachments/assets/3ad0c148-6e5a-4e1b-ba16-82f53b41d500" width="30" alt="MS Word Logo"> <a href="https://codingburgas-my.sharepoint.com/:w:/g/personal/itgeorgiev24_codingburgas_bg/IQD2dslJDu6DSK8jdKScKuYsARo-DKjQbKXMR3ku7P-8jys?wdExp=TEAMS-TREATMENT&web=1">Documentation</a>
 <br>
-<img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Microsoft_PowerPoint_Logo.png" width="20" alt="MS PowerPoint Logo"> <a href="https://codingburgas-my.sharepoint.com/:p:/g/personal/itgeorgiev24_codingburgas_bg/IQAm61vJKcIbQoYuWmiWs21AAb_kqL9HmkEv2C2r8UkIIPk?wdExp=TEAMS-TREATMENT&web=1">Presentation</a>
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Microsoft_PowerPoint_Logo.png" width="20" alt="MS PowerPoint Logo"> <a href="https://codingburgas-my.sharepoint.com/:p:/g/personal/itgeorgiev24_codingburgas_bg/IQBoF5hpo5ynTp_scibIEhr6AT3gXvdzY508n82S3TtRxrM?rtime=NjCU2yhE30g">Presentation</a>
 <br>
-<img src="https://github.com/user-attachments/assets/62dbb93e-2039-46d3-b48f-4056713c6e2d" width="20" alt="MS Excel Logo"> <a href="https://codingburgas-my.sharepoint.com/:x:/g/personal/itgeorgiev24_codingburgas_bg/IQDXiR_W5H3JTpTb3UD1dLQ-AYr3skYXggbUlA8dmaYpHc0?rtime=EIlU9oxC30g">QA Documentation</a>
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Microsoft_Office_Excel_%282025%E2%80%93present%29.svg?utm_source=bg.wikipedia.org&utm_campaign=index&utm_content=original" width="20" alt="MS Excel Logo"> <a href="https://codingburgas-my.sharepoint.com/:x:/g/personal/itgeorgiev24_codingburgas_bg/IQCNaeLyvnLzRrv1qpmTPtqTAZMCbMcCKn5yQ-19GNcMxeo?rtime=y6ixgChE30g">QA Documentation</a>
 <br>
 
 </p>
@@ -180,7 +185,8 @@ the number of the typed password is compared with the saved one.
 | **Hard**   | none – only one way | one less than doors | 0 | whole maze | ×3 |
 | **Expert** | none – only one way | one less than doors | 1 | **fog** `~~` – only what you explored | ×4 |
 
-<img width="1680" height="1002" alt="image" src="https://github.com/user-attachments/assets/903e58c9-7a89-4d02-b781-1b82e4d3af76" />
+<img width="1920" height="1140" alt="Screenshot_2026-11-16_232544" src="https://github.com/user-attachments/assets/69e22322-504a-4898-ae91-5482502449b0" />
+
 
 ## Campaign
 
