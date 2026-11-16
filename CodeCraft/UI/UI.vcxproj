@@ -50,10 +50,10 @@
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\MAZEBOUND.Logic;$(ProjectDir)..\MAZEBOUND.Data;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Data;$(ProjectDir)..\Logic;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -109,8 +109,8 @@
     <ClInclude Include="story.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MAZEBOUND.Logic\MAZEBOUND.Logic.vcxproj">
-      <Project>{2C3D4E5F-6071-4829-9ABC-DEF012345672}</Project>
+    <ProjectReference Include="..\Logic\Logic.vcxproj">
+      <Project>{cc64c9a4-d513-49a9-a2e1-42374208900a}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

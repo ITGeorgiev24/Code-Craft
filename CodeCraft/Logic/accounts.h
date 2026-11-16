@@ -1,5 +1,4 @@
 #pragma once
-
 #include "../Data/gameData.h"
 
 #include <string>
@@ -15,12 +14,12 @@ const int maxPasswordLength = 20;
 
 enum AccountResult {
     ACCOUNT_OK,
-    ACCOUNT_BAD_USERNAME,      
-    ACCOUNT_BAD_PASSWORD,      
-    ACCOUNT_NAME_TAKEN,        
-    ACCOUNT_NOT_FOUND,         
+    ACCOUNT_BAD_USERNAME,           
+    ACCOUNT_BAD_PASSWORD,           
+    ACCOUNT_NAME_TAKEN,              
+    ACCOUNT_NOT_FOUND,                
     ACCOUNT_WRONG_PASSWORD,
-    ACCOUNT_SAVE_FAILED        
+    ACCOUNT_SAVE_FAILED              
 };
 
 bool isValidUsername(const string& username);

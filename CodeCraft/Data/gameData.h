@@ -2,13 +2,14 @@
 #include <string>
 
 using namespace std;
+
 enum TileType { TILE_WALL, TILE_PATH, TILE_DOOR, TILE_EXIT };
 
 enum ItemType { ITEM_NONE, ITEM_KEY, ITEM_COIN, ITEM_COMPASS };
 
 enum Difficulty { EASY, NORMAL, HARD, EXPERT };
 
-enum GameStatus { NOT_STARTED, PLAYING, WON, QUIT };
+enum GameStatus { NOT_STARTED, PLAYING, WON, QUIT, CAUGHT };
 
 struct Position {
     int row = 0;
@@ -18,8 +19,8 @@ struct Position {
 struct Tile {
     TileType type = TILE_WALL;
     ItemType item = ITEM_NONE;
-    bool visited = false;
-    bool seen = false;
+    bool visited = false;        
+    bool seen = false;                 
 };
 
 struct Maze {
@@ -40,23 +41,38 @@ struct Player {
     int compasses = 0;
     int moves = 0;
     int doorsOpened = 0;
+    int rewards = 0;              
+    int bonusPoints = 0;          
+};
+
+struct Chaser {
+    bool enabled = false;        
+    int wakeAfterMs = 0;            
+    int stepMs = 0;                
+    bool active = false;          
+    Position position;
+    int stepTimerMs = 0;          
+    int frozenMs = 0;               
 };
 
 struct GameState {
     Maze maze;
     Player player;
     Difficulty difficulty = NORMAL;
-    unsigned int seed = 0;
+    unsigned int seed = 0;                  
     GameStatus status = NOT_STARTED;
     bool fogOfWar = false;
     int totalCoins = 0;
-    int optimalMoves = 0;
+    int optimalMoves = 0;                 
 
-    PositionList hintPath;
-    int hintStep = 0;
+    PositionList hintPath;               
+    int hintStep = 0;                    
     bool hintVisible = false;
     int hintsUsed = 0;
     int hintPenalty = 0;
+
+    int elapsedMs = 0;                     
+    Chaser chaser;
 };
 
 struct ScoreEntry {
@@ -65,6 +81,7 @@ struct ScoreEntry {
     Difficulty difficulty = NORMAL;
     int moves = 0;
     int score = 0;
+    int seconds = 0;              
 };
 
 struct ScoreTable {
@@ -76,14 +93,15 @@ struct ScoreTable {
 const int maxLevels = 10;
 
 struct CampaignProgress {
-    int unlockedLevels = 1;
-    int bestStars[maxLevels] = {};
+    int unlockedLevels = 1;                   
+    int bestStars[maxLevels] = {};          
     int bestScores[maxLevels] = {};
+    int bestTimes[maxLevels] = {};            
 };
 
 struct Account {
     string username;
-    unsigned int passwordHash = 0;
+    unsigned int passwordHash = 0;               
     CampaignProgress progress;
 };
 
@@ -108,6 +126,7 @@ bool samePosition(Position first, Position second);
 
 void createScoreTable(ScoreTable& table, int capacity);
 void deleteScoreTable(ScoreTable& table);
+
 bool addScore(ScoreTable& table, const ScoreEntry& entry);
 
 void createAccountList(AccountList& list, int capacity);

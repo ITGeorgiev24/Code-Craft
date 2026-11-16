@@ -16,7 +16,10 @@ bool isBetterScore(const ScoreEntry& first, const ScoreEntry& second) {
     if (first.score != second.score) {
         return first.score > second.score;
     }
-    return first.moves < second.moves;
+    if (first.moves != second.moves) {
+        return first.moves < second.moves;
+    }
+    return first.seconds > 0 && (second.seconds == 0 || first.seconds < second.seconds);
 }
 
 int insertScore(ScoreTable& table, const ScoreEntry& entry) {
@@ -25,7 +28,7 @@ int insertScore(ScoreTable& table, const ScoreEntry& entry) {
         place++;
     }
     if (place >= table.capacity) {
-        return -1;
+        return -1;              
     }
 
     int last = table.count < table.capacity ? table.count : table.capacity - 1;
@@ -64,6 +67,10 @@ ScoreEntry makeScoreEntry(const string& playerName, const GameState& game) {
     entry.difficulty = getDifficulty(game);
     entry.moves = getPlayer(game).moves;
     entry.score = calculateScore(game);
+    entry.seconds = getElapsedSeconds(game);
+    if (entry.seconds < 1 && getPlayer(game).moves > 0) {
+        entry.seconds = 1;           
+    }
     return entry;
 }
 

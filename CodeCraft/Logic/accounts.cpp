@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 string toLowerText(const string& text) {
     string result = text;
     for (int i = 0; i < (int)result.length(); i++) {
@@ -34,7 +33,6 @@ int findAccount(const AccountList& list, const string& username) {
     return -1;
 }
 
-
 bool isValidUsername(const string& username) {
     int length = (int)username.length();
     if (length < minUsernameLength || length > maxUsernameLength) {
@@ -57,12 +55,20 @@ bool isValidPassword(const string& password) {
     if (length < minPasswordLength || length > maxPasswordLength) {
         return false;
     }
+    bool hasDigit = false;
+    bool hasCapital = false;
     for (int i = 0; i < length; i++) {
         if (password[i] < 33 || password[i] > 126 || password[i] == ';') {
             return false;
         }
+        if (password[i] >= '0' && password[i] <= '9') {
+            hasDigit = true;
+        }
+        if (password[i] >= 'A' && password[i] <= 'Z') {
+            hasCapital = true;
+        }
     }
-    return true;
+    return hasDigit && hasCapital;
 }
 
 unsigned int hashPassword(const string& password) {
@@ -72,7 +78,6 @@ unsigned int hashPassword(const string& password) {
     }
     return hash;
 }
-
 
 bool accountExists(const string& username, const string& fileName) {
     AccountList list;
@@ -113,8 +118,7 @@ AccountResult logIn(const string& username, const string& password, const string
     AccountResult result = ACCOUNT_OK;
     if (place < 0) {
         result = ACCOUNT_NOT_FOUND;
-    }
-    else if (list.accounts[place].passwordHash != hashPassword(password)) {
+    } else if (list.accounts[place].passwordHash != hashPassword(password)) {
         result = ACCOUNT_WRONG_PASSWORD;
     }
     deleteAccountList(list);
@@ -135,7 +139,7 @@ CampaignProgress loadPlayerProgress(const string& username, const string& fileNa
     loadAccountList(list, fileName);
     int place = findAccount(list, username);
 
-    CampaignProgress progress;  
+    CampaignProgress progress;           
     if (place >= 0) {
         progress = list.accounts[place].progress;
     }

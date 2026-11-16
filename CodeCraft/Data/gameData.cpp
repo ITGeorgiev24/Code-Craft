@@ -2,13 +2,12 @@
 
 using namespace std;
 
-
 void createMaze(Maze& maze, int size) {
     deleteMaze(maze);
 
     maze.tiles = new Tile*[size];
     for (int row = 0; row < size; row++) {
-        maze.tiles[row] = new Tile[size];
+        maze.tiles[row] = new Tile[size];         
     }
     maze.size = size;
 }

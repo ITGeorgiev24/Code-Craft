@@ -3,20 +3,24 @@
 using namespace std;
 
 const LevelInfo levelList[levelCount] = {
-    { 1, 10, EASY },
-    { 2, 14, EASY },
-    { 3, 18, NORMAL },
-    { 4, 22, NORMAL },
-    { 5, 26, NORMAL },
-    { 6, 30, HARD },
-    { 7, 35, HARD },
-    { 8, 40, EXPERT },
-    { 9, 45, EXPERT },
-    { 10, 50, EXPERT },
+    { 1, 10, EASY, 0, 0 },
+    { 2, 14, EASY, 0, 0 },
+    { 3, 18, NORMAL, 0, 0 },
+    { 4, 22, NORMAL, 10000, 750 },               
+    { 5, 26, NORMAL, 0, 0 },
+    { 6, 30, HARD, 0, 0 },
+    { 7, 35, HARD, 12000, 650 },             
+    { 8, 40, EXPERT, 0, 0 },
+    { 9, 45, EXPERT, 0, 0 },
+    { 10, 50, EXPERT, 15000, 650 },        
 };
 
 bool isValidLevel(int level) {
     return level >= 1 && level <= levelCount;
+}
+
+bool levelHasChaser(int level) {
+    return isValidLevel(level) && levelList[level - 1].chaserStepMs > 0;
 }
 
 LevelInfo getLevel(int level) {
@@ -51,12 +55,12 @@ bool isCampaignComplete(const CampaignProgress& progress) {
     return true;
 }
 
-bool saveLevelResult(CampaignProgress& progress, int level, int stars, int score) {
+bool saveLevelResult(CampaignProgress& progress, int level, int stars, int score, int seconds) {
     if (!isLevelUnlocked(progress, level)) {
         return false;
     }
     if (stars < 1) {
-        stars = 1;
+        stars = 1;            
     }
     if (stars > 3) {
         stars = 3;
@@ -66,6 +70,10 @@ bool saveLevelResult(CampaignProgress& progress, int level, int stars, int score
     }
     if (score > progress.bestScores[level - 1]) {
         progress.bestScores[level - 1] = score;
+    }
+    int& bestTime = progress.bestTimes[level - 1];
+    if (seconds > 0 && (bestTime == 0 || seconds < bestTime)) {
+        bestTime = seconds;      
     }
 
     if (level < levelCount && progress.unlockedLevels < level + 1) {
@@ -91,6 +99,9 @@ void fixProgress(CampaignProgress& progress) {
         }
         if (progress.bestScores[i] < 0) {
             progress.bestScores[i] = 0;
+        }
+        if (progress.bestTimes[i] < 0) {
+            progress.bestTimes[i] = 0;
         }
         if (progress.bestStars[i] > 0 && i + 2 <= levelCount && progress.unlockedLevels < i + 2) {
             progress.unlockedLevels = i + 2;

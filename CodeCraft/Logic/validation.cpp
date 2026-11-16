@@ -24,7 +24,7 @@ bool textToInt(const string& text, int& number) {
     }
 
     int digits = (int)cleaned.length() - start;
-    if (digits < 1 || digits > 9) {   
+    if (digits < 1 || digits > 9) {          
         return false;
     }
 

@@ -36,6 +36,7 @@
     <ClInclude Include="accounts.h" />
     <ClInclude Include="campaign.h" />
     <ClInclude Include="gameLogic.h" />
+    <ClInclude Include="mazeGenerator.h" />
     <ClInclude Include="pathfinder.h" />
     <ClInclude Include="records.h" />
     <ClInclude Include="validation.h" />

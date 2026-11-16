@@ -21,4 +21,4 @@ ScoreEntry makeScoreEntry(const string& playerName, const GameState& game);
 bool qualifiesForLeaderboard(int score, int moves, const string& fileName = scoresFile);
 
 bool submitScore(const string& playerName, const GameState& game, int& place,
-    const string& fileName = scoresFile);
+                 const string& fileName = scoresFile);

@@ -8,15 +8,12 @@
 
 using namespace std;
 
-
-
 Position exitPositionOf(const GameState& game) {
     Position exitPosition;
     exitPosition.row = game.maze.size - 1;
     exitPosition.col = game.maze.size - 1;
     return exitPosition;
 }
-
 
 Position nextPosition(Position from, Direction direction) {
     Position next = from;
@@ -32,7 +29,6 @@ Position nextPosition(Position from, Direction direction) {
     return next;
 }
 
-
 void revealAroundPlayer(GameState& game) {
     Position center = game.player.position;
     for (int row = center.row - fogVision; row <= center.row + fogVision; row++) {
@@ -43,7 +39,6 @@ void revealAroundPlayer(GameState& game) {
         }
     }
 }
-
 
 void updateHint(GameState& game) {
     if (!game.hintVisible) {
@@ -60,6 +55,45 @@ void updateHint(GameState& game) {
     }
 }
 
+RewardType giveReward(GameState& game) {
+    RewardType reward = REWARD_GOLD;
+    int kind = game.player.rewards % 3;
+    if (kind == 0) {
+        reward = REWARD_COMPASS;
+        game.player.compasses++;
+    } else if (kind == 1) {
+        reward = REWARD_KEY;
+        game.player.keys++;
+    } else {
+        game.player.bonusPoints += rewardPoints;
+    }
+    game.player.rewards++;
+    if (game.chaser.active) {
+        game.chaser.frozenMs = chaserFreezeMs;
+    }
+    return reward;
+}
+
+void moveChaserOneStep(GameState& game) {
+    int size = game.maze.size;
+    int* distances = new int[size * size];
+    if (findDistances(game.maze, game.player.position, false, distances)) {
+        Position from = game.chaser.position;
+        int current = distances[from.row * size + from.col];
+        for (int direction = 0; direction < 4 && current > 0; direction++) {
+            Position next = nextPosition(from, (Direction)direction);
+            if (isInside(game.maze, next.row, next.col)) {
+                int distance = distances[next.row * size + next.col];
+                if (distance >= 0 && distance < current) {
+                    game.chaser.position = next;
+                    break;
+                }
+            }
+        }
+    }
+    delete[] distances;
+}
+
 int countDoorsOnPath(const GameState& game, const PositionList& path) {
     int doors = 0;
     for (int i = 0; i < path.count; i++) {
@@ -69,8 +103,6 @@ int countDoorsOnPath(const GameState& game, const PositionList& path) {
     }
     return doors;
 }
-
-
 
 void initializeRandom() {
     srand((unsigned int)time(0));
@@ -101,13 +133,75 @@ bool startGameWithSeed(GameState& game, int size, Difficulty difficulty, unsigne
     game.hintVisible = false;
     game.hintsUsed = 0;
     game.hintPenalty = 0;
+    game.elapsedMs = 0;
+    game.chaser = Chaser();         
     game.status = PLAYING;
     revealAroundPlayer(game);
     return true;
 }
 
 bool restartGame(GameState& game) {
-    return startGameWithSeed(game, game.maze.size, game.difficulty, game.seed);
+    Chaser oldChaser = game.chaser;
+    if (!startGameWithSeed(game, game.maze.size, game.difficulty, game.seed)) {
+        return false;
+    }
+    if (oldChaser.enabled) {
+        enableChaser(game, oldChaser.wakeAfterMs, oldChaser.stepMs);
+    }
+    return true;
+}
+
+void enableChaser(GameState& game, int wakeAfterMs, int stepMs) {
+    game.chaser = Chaser();
+    game.chaser.enabled = true;
+    game.chaser.wakeAfterMs = wakeAfterMs < 0 ? 0 : wakeAfterMs;
+    game.chaser.stepMs = stepMs < 50 ? 50 : stepMs;          
+}
+
+TimeEvent advanceTime(GameState& game, int deltaMs) {
+    if (game.status != PLAYING || game.player.moves == 0 || deltaMs <= 0) {
+        return TIME_NOTHING;
+    }
+    game.elapsedMs += deltaMs;
+
+    Chaser& chaser = game.chaser;
+    if (!chaser.enabled) {
+        return TIME_NOTHING;
+    }
+
+    if (!chaser.active) {
+        int distanceFromStart = game.player.position.row + game.player.position.col;
+        if (game.elapsedMs >= chaser.wakeAfterMs && distanceFromStart >= chaserSafeDistance) {
+            chaser.active = true;
+            chaser.position = Position();
+            chaser.stepTimerMs = 0;
+            return TIME_CHASER_APPEARED;
+        }
+        return TIME_NOTHING;
+    }
+
+    if (chaser.frozenMs > 0) {
+        chaser.frozenMs -= deltaMs;
+        if (chaser.frozenMs > 0) {
+            return TIME_NOTHING;
+        }
+        deltaMs = -chaser.frozenMs;           
+        chaser.frozenMs = 0;
+    }
+
+    chaser.stepTimerMs += deltaMs;
+    bool moved = false;
+    while (chaser.stepTimerMs >= chaser.stepMs) {
+        chaser.stepTimerMs -= chaser.stepMs;
+        moveChaserOneStep(game);
+        moved = true;
+        if (samePosition(chaser.position, game.player.position)) {
+            game.status = CAUGHT;
+            game.hintVisible = false;
+            return TIME_CAUGHT;
+        }
+    }
+    return moved ? TIME_CHASER_MOVED : TIME_NOTHING;
 }
 
 void endGame(GameState& game) {
@@ -122,8 +216,6 @@ void quitGame(GameState& game) {
         game.status = QUIT;
     }
 }
-
-
 
 MoveResult movePlayer(GameState& game, Direction direction) {
     MoveResult result;
@@ -148,23 +240,27 @@ MoveResult movePlayer(GameState& game, Direction direction) {
             result.status = MOVE_LOCKED_DOOR;
             return result;
         }
-      
         game.player.keys--;
         game.player.doorsOpened++;
         tile.type = TILE_PATH;
         result.openedDoor = true;
     }
 
-   
     game.player.position = target;
     game.player.moves++;
     tile.visited = true;
 
-   
     if (tile.item == ITEM_KEY) {
         game.player.keys++;
     } else if (tile.item == ITEM_COIN) {
         game.player.coins++;
+        if (game.player.coins % coinsPerReward == 0) {
+            result.reward = giveReward(game);
+        }
+        if (game.player.coins == game.totalCoins) {
+            game.player.bonusPoints += allCoinsBonus;
+            result.allCoins = true;
+        }
     } else if (tile.item == ITEM_COMPASS) {
         game.player.compasses++;
     }
@@ -173,6 +269,14 @@ MoveResult movePlayer(GameState& game, Direction direction) {
 
     updateHint(game);
     revealAroundPlayer(game);
+
+    if (game.chaser.active && samePosition(game.chaser.position, game.player.position)) {
+        game.status = CAUGHT;
+        game.hintVisible = false;
+        result.caught = true;
+        result.status = MOVE_OK;
+        return result;
+    }
 
     if (tile.type == TILE_EXIT) {
         game.status = WON;
@@ -193,7 +297,6 @@ HintResult requestHint(GameState& game) {
     PositionList path;
     bool found = false;
 
-    
     if (game.player.keys > 0) {
         found = findShortestPath(game.maze, from, to, true, path);
         if (found && countDoorsOnPath(game, path) > game.player.keys) {
@@ -208,7 +311,6 @@ HintResult requestHint(GameState& game) {
         return HINT_NO_PATH;
     }
 
-   
     deleteList(game.hintPath);
     game.hintPath = path;
     game.hintStep = 0;
@@ -222,7 +324,6 @@ HintResult requestHint(GameState& game) {
     game.hintPenalty += paidHintCost;
     return HINT_PAID;
 }
-
 
 int getMazeSize(const GameState& game) {
     return game.maze.size;
@@ -277,7 +378,6 @@ bool isTileVisible(const GameState& game, int row, int col) {
     if (!isInside(game.maze, row, col)) {
         return false;
     }
-   
     return game.maze.tiles[row][col].seen || game.maze.tiles[row][col].type == TILE_EXIT;
 }
 
@@ -309,6 +409,41 @@ int getHintsUsed(const GameState& game) {
     return game.hintsUsed;
 }
 
+int getElapsedSeconds(const GameState& game) {
+    return game.elapsedMs / 1000;
+}
+
+bool hasChaser(const GameState& game) {
+    return game.chaser.enabled;
+}
+
+bool isChaserActive(const GameState& game) {
+    return game.chaser.enabled && game.chaser.active;
+}
+
+bool isChaserAt(const GameState& game, int row, int col) {
+    return isChaserActive(game) && game.chaser.position.row == row && game.chaser.position.col == col;
+}
+
+bool isChaserFrozen(const GameState& game) {
+    return isChaserActive(game) && game.chaser.frozenMs > 0;
+}
+
+int getChaserWakeSeconds(const GameState& game) {
+    if (!game.chaser.enabled || game.chaser.active) {
+        return 0;
+    }
+    int left = game.chaser.wakeAfterMs - game.elapsedMs;
+    return left <= 0 ? 0 : (left + 999) / 1000;
+}
+
+int getChaserDistance(const GameState& game) {
+    if (!isChaserActive(game) || game.maze.tiles == nullptr) {
+        return -1;
+    }
+    return shortestPathLength(game.maze, game.chaser.position, game.player.position, false);
+}
+
 LocationInfo describeLocation(const GameState& game) {
     LocationInfo info;
     if (game.maze.tiles == nullptr) {
@@ -335,7 +470,6 @@ LocationInfo describeLocation(const GameState& game) {
 
     info.stepsToExit = shortestPathLength(game.maze, position, exitPositionOf(game), false);
 
-   
     for (int row = position.row - nearbyRadius; row <= position.row + nearbyRadius; row++) {
         for (int col = position.col - nearbyRadius; col <= position.col + nearbyRadius; col++) {
             int rowDifference = row > position.row ? row - position.row : position.row - row;
@@ -355,19 +489,19 @@ LocationInfo describeLocation(const GameState& game) {
     return info;
 }
 
-
-
 int getScoreMultiplier(Difficulty difficulty) {
     return getDifficultySettings(difficulty).scoreMultiplier;
 }
 
-int computeScore(int mazeSize, Difficulty difficulty, int moves, int optimalMoves, int coins, int hintPenalty) {
+int computeScore(int mazeSize, Difficulty difficulty, int moves, int optimalMoves, int coins, int hintPenalty,
+                 int bonusPoints) {
     int score = mazeSize * 40 * getScoreMultiplier(difficulty);
     if (moves > optimalMoves) {
         score -= (moves - optimalMoves) * extraMovePenalty;
     }
     score += coins * coinValue;
     score -= hintPenalty;
+    score += bonusPoints;
     if (score < 0) {
         score = 0;
     }
@@ -376,15 +510,22 @@ int computeScore(int mazeSize, Difficulty difficulty, int moves, int optimalMove
 
 int calculateScore(const GameState& game) {
     return computeScore(game.maze.size, game.difficulty, game.player.moves, game.optimalMoves,
-                        game.player.coins, game.hintPenalty);
+                        game.player.coins, game.hintPenalty, game.player.bonusPoints);
 }
 
 int calculateStars(int moves, int optimalMoves) {
     if (optimalMoves <= 0 || moves * 100 <= optimalMoves * 115) {
-        return 3;   
+        return 3;            
     }
     if (moves * 100 <= optimalMoves * 160) {
-        return 2;  
+        return 2;       
     }
     return 1;
+}
+
+int chaserStepForDifficulty(Difficulty difficulty) {
+    if (difficulty == EASY) return 850;
+    if (difficulty == NORMAL) return 750;
+    if (difficulty == HARD) return 650;
+    return 600;
 }

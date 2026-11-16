@@ -167,7 +167,7 @@ int placeDoors(Maze& maze, int doorCount) {
                 difference = -difference;
             }
             int saving = difference - 2;
-            if (saving >= minimumSaving) {
+            if (saving >= minimumSaving && candidateCount < size * size) {
                 candidates[candidateCount].row = row;
                 candidates[candidateCount].col = col;
                 savings[candidateCount] = saving;
@@ -192,10 +192,13 @@ int placeDoors(Maze& maze, int doorCount) {
     }
 
     int pool = candidateCount < doorCount * 4 ? candidateCount : doorCount * 4;
+    if (pool > size * size) {
+        pool = size * size;
+    }
     shufflePositions(candidates, pool);
 
     int placed = 0;
-    for (int i = 0; i < pool && placed < doorCount; i++) {
+    for (int i = 0; i < pool && i < size * size && placed < doorCount; i++) {
         if (!hasDoorNearby(maze, candidates[i].row, candidates[i].col)) {
             maze.tiles[candidates[i].row][candidates[i].col].type = TILE_DOOR;
             placed++;
